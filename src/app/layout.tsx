@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ThemeSwitch } from "@/components/layout/theme-switch";
 
-const fontSans = FontSans({
+export const fontSans = FontSans({
   variable: "--font-sans",
   subsets: ["latin"],
 });
@@ -26,7 +26,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn(
-        "bg-background text-foreground min-h-screen font-sans antialiased",
+        "min-h-screen bg-background font-sans text-foreground antialiased",
         fontSans.variable,
       )}
     >

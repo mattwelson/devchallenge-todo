@@ -1,5 +1,7 @@
+import React from "react";
 import type { Preview } from "@storybook/react";
 
+import { fontSans } from "../src/app/layout";
 import "../src/styles/globals.css";
 
 const preview: Preview = {
@@ -11,6 +13,11 @@ const preview: Preview = {
       },
     },
   },
+  decorators: (Story) => (
+    <div className={`font-sans ${fontSans.variable}`}>
+      <Story />
+    </div>
+  ),
 };
 
 export default preview;
