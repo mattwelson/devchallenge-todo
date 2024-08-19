@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { ThemeSwitch } from "./theme-switch";
+import { ThemeSwitch, ThemeSwitchElement } from "./theme-switch";
 import { useTheme } from "next-themes";
 
 vi.mock("next-themes", () => ({
@@ -12,7 +12,7 @@ afterEach(cleanup);
 
 describe("light mode", () => {
   it("renders with a theme showing light", () => {
-    render(<ThemeSwitch />);
+    render(<ThemeSwitchElement isLight={true} handleChange={vi.fn()} />);
 
     expect(
       screen.getByRole("switch").attributes.getNamedItem("data-state")?.value,
@@ -24,12 +24,7 @@ describe("light mode", () => {
 
   it("toggles to dark on click", async () => {
     const setTheme = vi.fn();
-    vi.mocked(useTheme, { partial: true }).mockReturnValue({
-      setTheme,
-      theme: undefined,
-    });
-
-    render(<ThemeSwitch />);
+    render(<ThemeSwitchElement isLight={true} handleChange={setTheme} />);
 
     const user = userEvent.setup();
 
@@ -49,7 +44,6 @@ describe("toggled to dark mode", () => {
   it("renders with a theme showing dark", () => {
     render(<ThemeSwitch />);
 
-    screen.debug();
     expect(
       screen.getByRole("switch").attributes.getNamedItem("data-state")?.value,
     ).toEqual("unchecked");

@@ -12,6 +12,9 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    docs: {
+      toc: true,
+    },
   },
   decorators: (Story) => (
     <div className={`font-sans ${fontSans.variable}`}>

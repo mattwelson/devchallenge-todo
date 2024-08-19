@@ -29,6 +29,7 @@ export default function RootLayout({
         "min-h-screen bg-background font-sans text-foreground antialiased",
         fontSans.variable,
       )}
+      suppressHydrationWarning
     >
       <body>
         <ThemeProvider
