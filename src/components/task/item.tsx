@@ -21,7 +21,7 @@ export function Item({
   return (
     <div
       className={cn(
-        "grid grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-2xl bg-slate-300 p-4",
+        "grid grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-2xl bg-slate-300 p-4 dark:text-background",
         {
           "bg-yellow-300": status === Statuses.progress,
           "bg-green-300": status === Statuses.complete,

@@ -11,12 +11,11 @@ export function ThemeSwitch() {
   function handleChange(light: boolean) {
     setTheme(light ? "light" : "dark");
   }
-  console.log({ theme });
 
   return (
-    <div className="flex gap-2">
+    <div className="flex justify-end gap-2 p-2">
       <Moon className="text-foreground/50 dark:text-foreground" />
-      <Switch checked={isLight} onCheckedChange={handleChange} />
+      <Switch checked={isLight} onCheckedChange={handleChange} className="" />
       <Sun className="text-foreground dark:text-foreground/50" />
     </div>
   );

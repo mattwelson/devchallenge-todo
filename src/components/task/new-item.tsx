@@ -8,7 +8,7 @@ export function NewItem({ addNew }: { addNew: () => void }) {
   return (
     <div
       className={cn(
-        "grid grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-2xl bg-orange-100 p-4",
+        "grid grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-2xl bg-orange-100 p-4 dark:text-background",
       )}
       onClick={addNew}
     >

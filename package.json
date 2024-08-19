@@ -13,6 +13,7 @@
     "lint": "next lint",
     "start": "next start",
     "storybook": "storybook dev -p 6006",
+    "test": "vitest",
     "build-storybook": "storybook build"
   },
   "dependencies": {
@@ -43,7 +44,6 @@
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "vitest": "^2.0.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -56,23 +56,30 @@
     "@storybook/nextjs": "^8.2.8",
     "@storybook/react": "^8.2.8",
     "@storybook/test": "^8.2.8",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
+    "@vitejs/plugin-react": "^4.3.1",
     "drizzle-kit": "^0.21.4",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.4",
     "eslint-plugin-drizzle": "^0.2.3",
     "eslint-plugin-storybook": "^0.8.0",
+    "jsdom": "^24.1.1",
     "postcss": "^8.4.39",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
     "storybook": "^8.2.8",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.0.5"
   },
   "ct3aMetadata": {
     "initVersion": "7.36.2"
