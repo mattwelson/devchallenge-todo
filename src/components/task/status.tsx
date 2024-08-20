@@ -13,6 +13,19 @@ export enum Statuses {
   wontdo = "wontdo",
 }
 
+export function statusLookup(status: Statuses) {
+  switch (status) {
+    case Statuses.complete:
+      return "Complete";
+    case Statuses.progress:
+      return "In progress";
+    case Statuses.wontdo:
+      return "Won't do";
+    default:
+      "To do";
+  }
+}
+
 export function Status({ status }: { status: Statuses }) {
   if (status === Statuses.default) return null;
 

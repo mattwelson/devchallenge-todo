@@ -29,6 +29,7 @@ export const Progress: Story = {
   },
 };
 export const WontDo: Story = {
+  name: `Won't do`,
   args: {
     status: Statuses.wontdo,
   },

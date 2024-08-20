@@ -7,6 +7,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ThemeSwitch } from "@/components/layout/theme-switch";
+import { Toaster } from "@/components/ui/sonner";
 
 export const fontSans = FontSans({
   variable: "--font-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
               <ThemeSwitch />
             </header>
             {children}
+            <Toaster />
           </TRPCReactProvider>
         </ThemeProvider>
       </body>

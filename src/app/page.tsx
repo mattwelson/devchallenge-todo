@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <HydrateClient>
-      <main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-8">
+      <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-8">
         <Header />
         <TaskList />
       </main>
