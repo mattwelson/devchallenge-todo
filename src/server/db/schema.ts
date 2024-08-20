@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import {
   index,
   integer,
+  pgEnum,
   pgTableCreator,
   primaryKey,
   serial,
@@ -9,7 +10,9 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
 import { type AdapterAccount } from "next-auth/adapters";
+import { z } from "zod";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -19,11 +22,21 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = pgTableCreator((name) => `todo_${name}`);
 
-export const posts = createTable(
-  "post",
+export const statusEnum = pgEnum("item_status", [
+  "default",
+  "complete",
+  "progress",
+  "wontdo",
+]);
+
+export const items = createTable(
+  "item",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    name: varchar("name", { length: 256 }).notNull(),
+    description: varchar("description"),
+    icon: varchar("icon", { length: 10 }), // just an emoji - but emojis can contain multiple characters
+    status: statusEnum("status").default("default"),
     createdById: varchar("created_by", { length: 255 })
       .notNull()
       .references(() => users.id),
@@ -31,14 +44,19 @@ export const posts = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date()
+      () => new Date(),
     ),
   },
   (example) => ({
     createdByIdIdx: index("created_by_idx").on(example.createdById),
     nameIndex: index("name_idx").on(example.name),
-  })
+    statusIndex: index("status_idx").on(example.status),
+  }),
 );
+
+export const insertItemSchema = createInsertSchema(items, {
+  description: z.string(),
+});
 
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })
@@ -72,6 +90,7 @@ export const accounts = createTable(
       length: 255,
     }).notNull(),
     refresh_token: text("refresh_token"),
+    refresh_token_expires_in: integer("refresh_token_expires_in"),
     access_token: text("access_token"),
     expires_at: integer("expires_at"),
     token_type: varchar("token_type", { length: 255 }),
@@ -84,7 +103,7 @@ export const accounts = createTable(
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_user_id_idx").on(account.userId),
-  })
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -107,7 +126,7 @@ export const sessions = createTable(
   },
   (session) => ({
     userIdIdx: index("session_user_id_idx").on(session.userId),
-  })
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -126,5 +145,5 @@ export const verificationTokens = createTable(
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  })
+  }),
 );

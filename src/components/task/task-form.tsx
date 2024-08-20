@@ -15,19 +15,15 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 import DoneIcon from "@/icons/Done_round.svg";
+import TrashIcon from "@/icons/Trash.svg";
+
 import type { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { StatusPicker } from "./pickers/status-picker";
 import { Statuses } from "./status";
 import { defaultEmojis, EmojiPicker } from "./pickers/emoji-picker";
+import { insertItemSchema } from "@/server/db/schema";
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  description: z.string().optional(),
-  icon: z.string().emoji(),
-  status: z
-    .enum(["complete", "wontdo", "progress", "default"])
-    .default("default"),
-});
+export const formSchema = insertItemSchema.omit({ createdById: true });
 
 const defaultValues = {
   name: "",
@@ -36,15 +32,29 @@ const defaultValues = {
   status: "default",
 } satisfies Partial<z.infer<typeof formSchema>>;
 
-export function TaskForm() {
+export function TaskForm({
+  addOrUpdate,
+  initialValues = defaultValues,
+  isEdit = false,
+  isPending,
+  deleteItem,
+}: {
+  addOrUpdate: (values: z.infer<typeof formSchema>) => void;
+  initialValues?: z.infer<typeof formSchema>;
+  isEdit?: boolean;
+  isPending: boolean;
+  deleteItem?: () => void;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues,
+    defaultValues: initialValues,
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log({ values });
+    addOrUpdate(values);
   }
+
+  console.log({ form });
 
   return (
     <Form {...form}>
@@ -77,7 +87,11 @@ export function TaskForm() {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Optional description" {...field} />
+                <Textarea
+                  placeholder="Optional description"
+                  {...field}
+                  value={field.value ?? undefined}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,7 +102,7 @@ export function TaskForm() {
           name="icon"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Status</FormLabel>
+              <FormLabel>Icon</FormLabel>
               <EmojiPicker
                 emoji={field.value}
                 emojis={defaultEmojis}
@@ -117,15 +131,46 @@ export function TaskForm() {
             </FormItem>
           )}
         />
-        <div className="flex justify-end justify-self-end">
-          <Button type="submit" className="select-none">
-            Create
-            <Image
-              src={DoneIcon as StaticImport}
-              className="ml-2 size-6"
-              alt=""
-            />
-          </Button>
+        <div className="flex justify-end gap-4 justify-self-end">
+          {!isEdit && (
+            <Button type="submit" className="select-none" disabled={isPending}>
+              Create
+              <Image
+                src={DoneIcon as StaticImport}
+                className="ml-2 size-6"
+                alt=""
+              />
+            </Button>
+          )}
+          {isEdit && (
+            <>
+              <Button
+                type="button"
+                className="select-none bg-slate-600 text-white hover:bg-slate-500"
+                variant="secondary"
+                onClick={deleteItem}
+              >
+                Delete
+                <Image
+                  src={TrashIcon as StaticImport}
+                  className="ml-2 size-6"
+                  alt=""
+                />
+              </Button>
+              <Button
+                type="submit"
+                className="select-none"
+                disabled={isPending}
+              >
+                Save
+                <Image
+                  src={DoneIcon as StaticImport}
+                  className="ml-2 size-6"
+                  alt=""
+                />
+              </Button>
+            </>
+          )}
         </div>
       </form>
     </Form>

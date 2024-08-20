@@ -19,9 +19,6 @@ const meta = {
     },
   },
   tags: ["autodocs"],
-  args: {
-    open: fn(),
-  },
 } satisfies Meta<typeof Item>;
 
 export default meta;
@@ -31,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     icon: "🍔",
-    title: "title",
+    name: "title",
     status: Statuses.default,
   },
 };
@@ -39,7 +36,7 @@ export const Default: Story = {
 export const Progress: Story = {
   args: {
     icon: "🖊️",
-    title: "In Progress",
+    name: "In Progress",
     status: Statuses.progress,
   },
 };
@@ -47,7 +44,7 @@ export const Progress: Story = {
 export const Complete: Story = {
   args: {
     icon: "✨",
-    title: "Complete",
+    name: "Complete",
     status: Statuses.complete,
   },
 };
@@ -55,7 +52,7 @@ export const Complete: Story = {
 export const WontDo: Story = {
   args: {
     icon: "🐳",
-    title: "Won't do",
+    name: "Won't do",
     status: Statuses.wontdo,
   },
 };
@@ -63,7 +60,7 @@ export const WontDo: Story = {
 export const WithDescription: Story = {
   args: {
     icon: "❓",
-    title: "With description",
+    name: "With description",
     status: Statuses.default,
     description: "Some long description",
   },
@@ -72,8 +69,8 @@ export const WithDescription: Story = {
 export const NewItemRow: Story = {
   args: {
     icon: "",
-    title: "Won't render",
+    name: "Won't render",
     status: Statuses.wontdo,
   },
-  render: () => <NewItem addNew={fn()} />,
+  render: () => <NewItem />,
 };

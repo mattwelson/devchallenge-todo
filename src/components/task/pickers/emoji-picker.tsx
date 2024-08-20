@@ -7,7 +7,7 @@ export function EmojiPicker({
   emojis,
   onChange,
 }: {
-  emoji?: string;
+  emoji?: string | null;
   emojis: string[];
   onChange: (emoji?: string) => void;
 }) {

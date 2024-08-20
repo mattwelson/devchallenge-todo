@@ -18,7 +18,7 @@ export function StatusPickerItem({
     <div
       onClick={onClick}
       className={cn(
-        "flex cursor-pointer items-center gap-4 rounded-xl border-2 border-slate-300 p-1",
+        "flex cursor-pointer items-center gap-4 rounded-xl border-2 border-border p-1",
         {
           "border-primary": checked,
         },

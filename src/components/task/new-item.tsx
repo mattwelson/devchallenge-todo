@@ -11,16 +11,31 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { TaskForm } from "./task-form";
+import { TaskForm, type formSchema } from "./task-form";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
+import type { z } from "zod";
+import { useState } from "react";
 
-export function NewItem({ addNew }: { addNew: () => void }) {
+export function NewItem() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const utils = api.useUtils();
+  const createItem = api.items.create.useMutation();
+
+  async function handleUpdate(values: z.infer<typeof formSchema>) {
+    await createItem.mutateAsync(values);
+    await utils.items.invalidate();
+    setIsOpen(false);
+    toast.success("Item created");
+  }
+
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <SheetTrigger
         className={cn(
           "grid cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-2xl bg-orange-100 p-4 dark:text-background",
         )}
-        onClick={addNew}
         asChild
       >
         <div>
@@ -35,7 +50,7 @@ export function NewItem({ addNew }: { addNew: () => void }) {
           <SheetTitle>Task details</SheetTitle>
           <SheetClose />
         </SheetHeader>
-        <TaskForm />
+        <TaskForm addOrUpdate={handleUpdate} isPending={createItem.isPending} />
       </SheetContent>
     </Sheet>
   );

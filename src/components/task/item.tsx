@@ -4,37 +4,35 @@ import { cn } from "@/lib/utils";
 import { Status, Statuses } from "./status";
 
 // TODO: switch to CVA for status?
+export interface ItemProps {
+  icon?: string | null;
+  name: string;
+  description?: string | null;
+  status?: string | null;
+}
 
 export function Item({
   icon,
-  title,
+  name,
   description,
-  status,
-  open,
-}: {
-  icon: string;
-  title: string;
-  description?: string;
-  status: Statuses;
-  open: () => void;
-}) {
+  status = "default",
+}: ItemProps) {
   return (
     <div
       className={cn(
-        "grid grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-2xl bg-slate-300 p-4 dark:text-background",
+        "grid grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-2xl bg-slate-200 p-4 dark:text-background",
         {
           "bg-yellow-300": status === Statuses.progress,
           "bg-green-300": status === Statuses.complete,
           "bg-rose-300": status === Statuses.wontdo,
         },
       )}
-      onClick={open}
     >
       <div className="flex size-12 items-center justify-center rounded-lg bg-background">
-        {icon}
+        {icon ?? "❓"}
       </div>
-      <h2 className="text-xl font-semibold">{title}</h2>
-      <Status status={status} />
+      <h2 className="text-xl font-semibold">{name}</h2>
+      <Status status={status as Statuses} />
       {description && (
         <div className="col-start-2 font-light">{description}</div>
       )}

@@ -4,10 +4,9 @@ import { Header } from "@/components/layout/header";
 import { TaskList } from "@/components/task/task-list";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const session = await getServerAuthSession();
 
-  void api.post.getLatest.prefetch();
+  // api.post.getLatest.prefetch();
 
   return (
     <HydrateClient>
